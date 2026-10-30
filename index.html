@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Protótipo acadêmico para organização de agendamentos da Clínica Comunitária Casa Mãe de Misericórdia.">
+    <title>Agenda Comunitária</title>
+   <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <header class="cabecalho">
+      <div class="cabecalho__conteudo">
+        <a class="marca" href="#inicio" data-abrir-aba="inicio">
+          <span class="marca__simbolo" aria-hidden="true">
+            <img src="assets/logo-clinica.png" alt="">
+          </span>
+          <span>
+            <strong>Agenda Comunitária</strong>
+             <small>Casa Mãe de Misericórdia</small>
+          </span>
+        </a>
+
+
+        <!-- Abas -->
+        <nav class="abas" aria-label="Navegação principal" role="tablist">
+          <button class="aba ativa" id="aba-inicio" type="button" role="tab" aria-selected="true" aria-controls="inicio" data-aba="inicio">Início</button>
+          <button class="aba" id="aba-agendamento" type="button" role="tab" aria-selected="false" aria-controls="agendamento" data-aba="agendamento">Novo agendamento</button>
+          <button class="aba" id="aba-agenda" type="button" role="tab" aria-selected="false" aria-controls="agenda" data-aba="agenda">Agenda</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="conteudo">
+      <section class="painel painel--inicio" id="inicio" role="tabpanel" aria-labelledby="aba-inicio">
+
+        <!-- Resumo diário -->
+        <section class="resumo-hoje" aria-labelledby="titulo-resumo">
+          <div class="resumo-hoje__titulo">
+            <h2 id="titulo-resumo">Consultas de hoje</h2>
+            <p id="data-resumo"></p>
+          </div>
+          <dl class="resumo-hoje__numeros">
+            <div>
+              <dt>Total</dt>
+              <dd id="total-hoje">0</dd>
+            </div>
+            <div>
+            <dt>Pendentes</dt>
+              <dd id="pendentes-hoje">0</dd>
+            </div>
+            <div>
+              <dt>Atendidas</dt>
+              <dd id="atendidas-hoje">0</dd>
+            </div>
+          </dl>
+          <button class="botao botao--secundario" id="ver-agenda-hoje" type="button">Ver agenda de hoje</button>
+          <p class="resumo-hoje__vazio" id="resumo-vazio">Nenhuma consulta agendada para hoje.</p>
+        </section>
+
+        <div class="apresentacao">
+          <div>
+            <h1>Agenda de consultas</h1>
+            <p>Organize os horários da clínica e acompanhe os atendimentos do dia. Para agendar uma consulta, preencha os dados recebidos por telefone ou na recepção.</p>
+            <div class="acoes-inicio">
+              <button class="botao botao--primario" type="button" data-abrir-aba="agendamento">Fazer agendamento</button>
+              <button class="botao botao--secundario" type="button" data-abrir-aba="agenda">Ver agenda</button>
+            </div>
+          </div>
+
+          <aside class="identidade-clinica" aria-label="Clínica Casa Mãe de Misericórdia">
+            <div class="logo-clinica-destaque">
+              <img src="assets/logo-clinica.png" alt="Clínica Casa Mãe de Misericórdia">
+            </div>
+            <div class="aviso">
+              <strong>Versão para demonstração</strong>
+              <p>Use apenas dados fictícios. Os agendamentos ficam salvos neste navegador.</p>
+            </div>
+          </aside>
+        </div>
+
+        <div class="como-usar">
+          <h2>Como usar a agenda</h2>
+          <ol>
+            <li>Em Novo agendamento, preencha os dados e o horário da consulta.</li>
+            <li>Na aba Agenda, consulte, edite ou cancele os horários cadastrados.</li>
+            <li>Depois da consulta, clique em Marcar atendido.</li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="painel" id="agendamento" role="tabpanel" aria-labelledby="aba-agendamento" hidden>
+        <header class="titulo-secao">
+          <h1 id="titulo-formulario">Novo agendamento</h1>
+          <p>Informe os dados do paciente e o horário combinado para a consulta.</p>
+        </header>
+
+
+
+        <!-- Novo agendamento -->
+        <form id="form-agendamento" novalidate>
+          <input type="hidden" id="agendamento-id">
+
+          <div class="campos">
+            <div class="campo campo--largo">
+              <label for="paciente">Nome do paciente <span aria-hidden="true">*</span></label>
+              <input id="paciente" name="paciente" type="text" maxlength="100" autocomplete="name" required>
+            </div>
+
+            <div class="campo">
+               <label for="telefone">Telefone <span aria-hidden="true">*</span></label>
+              <input id="telefone" name="telefone" type="tel" maxlength="20" autocomplete="tel" placeholder="(62) 99999-9999" required>
+            </div>
+
+            <div class="campo">
+              <label for="especialidade">Especialidade ou tipo de consulta <span aria-hidden="true">*</span></label>
+              <input id="especialidade" name="especialidade" type="text" maxlength="80" placeholder="Ex.: Clínica geral" list="sugestoes-especialidades" aria-describedby="ajuda-especialidade" required>
+              <datalist id="sugestoes-especialidades"></datalist>
+              <small class="ajuda-campo" id="ajuda-especialidade">Escolha uma sugestão ou digite uma nova especialidade.</small>
+            </div>
+
+            <div class="campo campo--largo">
+              <label for="profissional">Profissional <span class="opcional">(opcional)</span></label>
+              <input id="profissional" name="profissional" type="text" maxlength="100" placeholder="Ex.: Thaís de Oliveira" list="sugestoes-profissionais" aria-describedby="ajuda-profissional">
+              <datalist id="sugestoes-profissionais"></datalist>
+              <small class="ajuda-campo" id="ajuda-profissional">Escolha um nome já cadastrado ou digite um novo nome.</small>
+            </div>
+
+            <div class="campo">
+              <label for="data">Data <span aria-hidden="true">*</span></label>
+              <input id="data" name="data" type="date" required>
+            </div>
+
+            <div class="campo">
+              <label for="horario">Horário <span aria-hidden="true">*</span></label>
+              <input id="horario" name="horario" type="time" required>
+            </div>
+
+            <div class="campo campo--largo">
+              <label for="observacao">Observação <span class="opcional">(opcional)</span></label>
+              <textarea id="observacao" name="observacao" rows="4" maxlength="300" placeholder="Inclua somente informações necessárias para o agendamento."></textarea>
+            </div>
+          </div>
+
+          <p class="legenda-obrigatorio"><span aria-hidden="true">*</span> Campos obrigatórios</p>
+          <div class="acoes-formulario">
+            <button class="botao botao--primario" id="botao-salvar" type="submit">Salvar agendamento</button>
+            <button class="botao botao--secundario" id="botao-cancelar-edicao" type="button" hidden>Cancelar edição</button>
+          </div>
+          <div class="mensagem" id="mensagem-formulario" role="status" aria-live="polite" hidden></div>
+        </form>
+      </section>
+
+      <section class="painel" id="agenda" role="tabpanel" aria-labelledby="aba-agenda" hidden>
+        <header class="titulo-secao">
+          <h1>Agenda</h1>
+          <p>Consulte os horários e acompanhe quais pacientes já foram atendidos.</p>
+        </header>
+
+        <div class="filtros-agenda" id="filtros-agenda" hidden>
+          <div class="filtros-agenda__topo">
+            <h2>Filtrar agenda</h2>
+            <button class="botao-limpar" id="limpar-filtros" type="button">Limpar filtros</button>
+          </div>
+
+          <div class="filtros-agenda__campos">
+            <div class="filtro">
+              <label for="filtro-data">Data</label>
+              <input id="filtro-data" type="date">
+            </div>
+
+            <div class="filtro">
+              <label for="filtro-especialidade">Especialidade</label>
+              <select id="filtro-especialidade">
+                <option value="">Todas as especialidades</option>
+              </select>
+            </div>
+
+            <div class="filtro">
+              <label for="filtro-profissional">Profissional</label>
+              <select id="filtro-profissional">
+                <option value="">Todos os profissionais</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="estado-vazio" id="agenda-vazia">
+          <h2>Nenhum agendamento cadastrado</h2>
+          <p>Cadastre uma consulta para começar a organizar a agenda.</p>
+          <button class="botao botao--primario" type="button" data-abrir-aba="agendamento">Cadastrar primeiro horário</button>
+        </div>
+
+        <div class="resultado-vazio" id="resultado-vazio" hidden>
+          <h2>Nenhum agendamento encontrado</h2>
+          <p>Altere ou limpe os filtros para visualizar outros horários.</p>
+        </div>
+
+
+        <!-- Consultas -->
+        <div class="area-tabela" id="area-tabela" hidden>
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Telefone</th>
+                <th>Especialidade</th>
+                <th>Profissional</th>
+                <th>Data</th>
+                <th>Horário</th>
+                <th>Status</th>
+                <th><span class="visualmente-oculto">Ações</span></th>
+              </tr>
+            </thead>
+            <tbody id="lista-agendamentos"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <p>Agenda Comunitária · Casa Mãe de Misericórdia</p>
+      <p>Projeto da disciplina Atividade Extensionista II · Análise e Desenvolvimento de Sistemas</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
